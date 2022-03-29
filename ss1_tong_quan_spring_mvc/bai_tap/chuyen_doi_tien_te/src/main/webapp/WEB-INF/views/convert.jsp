@@ -5,7 +5,7 @@
 </head>
 <body>
 
-<h1>USD : ${usd}</h1>
+<h1>USD : ${ngoc}</h1>
 <h1>Convert to</h1>
 <h1>VND : ${vnd}</h1>
 </body>
