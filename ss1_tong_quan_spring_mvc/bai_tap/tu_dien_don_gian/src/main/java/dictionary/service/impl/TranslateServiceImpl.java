@@ -9,7 +9,7 @@ import java.util.Map;
 @Service
 public class TranslateServiceImpl implements ITranslateService {
     @Override
-    public Map<String, String> storeDictionary() {
+    public Map<String, String> translate() {
         Map<String,String> mapDictionary = new HashMap<>();
         mapDictionary.put("Hello","Xin Chao");
         mapDictionary.put("Good Bye","Chao Tam Biet");

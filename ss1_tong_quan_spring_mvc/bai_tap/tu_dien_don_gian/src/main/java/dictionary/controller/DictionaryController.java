@@ -23,7 +23,7 @@ public class DictionaryController {
 
     @PostMapping("dictionary")
     public String translate(@RequestParam String english, Model model){
-        Map<String,String> dictionaryMap = translateService.storeDictionary();
+        Map<String,String> dictionaryMap = translateService.translate();
         String result = dictionaryMap.get(english);
         if(result == null){
             model.addAttribute("message","Not found");
