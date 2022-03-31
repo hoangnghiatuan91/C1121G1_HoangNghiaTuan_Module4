@@ -1,24 +1,20 @@
-<%@ page import="cg.wbd.grandemonstration.service.CustomerService" %>
-<%@ page import="cg.wbd.grandemonstration.service.CustomerServiceFactory" %>
-<%@ page import="cg.wbd.grandemonstration.model.Customer" %>
-<%@ page import="java.util.List" %>
-<%!
-    private CustomerService customerService = CustomerServiceFactory.getInstance();
-%>
-<%
-    long count = customerService.count();
-    List<Customer> customers = customerService.findAll();
-%>
-<style>
-    table {
-        border: 1px solid #000;
-    }
-
-    th, td {
-        border: 1px dotted #555;
-    }
-</style>
-There are <%= count %> customer(s) in list.
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>List Customers</title>
+    <style>
+        table {
+            border: 1px solid #000;
+        }
+        th, td {
+            border: 1px dotted #555;
+        }
+    </style>
+</head>
+<body>
+<p>There are <c:out value="${requestScope['customers'].size()}"/> customer(s) in list.</p>
 <table>
     <caption>Customers List</caption>
     <thead>
@@ -30,21 +26,23 @@ There are <%= count %> customer(s) in list.
     </tr>
     </thead>
     <tbody>
-    <% for (Customer c : customers) { %>
-    <tr>
-        <td>
-            <%= c.getId() %>
-        </td>
-        <td>
-            <a href="/customers/${c.id}">${c.name}</a>
-        </td>
-        <td>
-            <%= c.getEmail() %>
-        </td>
-        <td>
-            <%= c.getAddress() %>
-        </td>
-    </tr>
-    <% } %>
+    <c:forEach var="c" items="${requestScope['customers']}">
+        <tr>
+            <td>
+                <c:out value="${c.getId()}"/>
+            </td>
+            <td>
+                <a href="<c:url value='/customers/${c.getId()}'/>">${c.getName()}</a>
+            </td>
+            <td>
+                <c:out value="${c.getEmail()}"/>
+            </td>
+            <td>
+                <c:out value="${c.getAddress()}"/>
+            </td>
+        </tr>
+    </c:forEach>
     </tbody>
 </table>
+</body>
+</html>
