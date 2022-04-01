@@ -3,10 +3,7 @@ package to_khai_y_te.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import to_khai_y_te.model.MedicalDeclaration;
 import to_khai_y_te.service.MedicalDeclarationService;
@@ -27,15 +24,17 @@ public class MedicalClarationController {
     }
 
     @PostMapping("/save")
-    public String save (@ModelAttribute MedicalDeclaration medicalDeclaration, Model model) {
+    public String save (@ModelAttribute(name = "medicalDeclaration") MedicalDeclaration medicalDeclaration, Model model) {
         medicalDeclaration.setIdForm((int) (Math.random()*10000));
         medicalDeclarationService.save(medicalDeclaration);
-        model.addAttribute("medicalDeclaration", medicalDeclaration);
+        System.out.println(medicalDeclaration);
+        model.addAttribute("medicalDeclaration1", medicalDeclaration);
         model.addAttribute("message", "Đã tạo tờ khai y tế thành công");
+        model.addAttribute("idForm",medicalDeclaration.getIdForm());
         return "info";
     }
 
-    @GetMapping ("/{idForm}/edit")
+    @GetMapping ("/edit/{idForm}")
     public String edit (@PathVariable int idForm, Model model) {
         model.addAttribute("medicalDeclaration", medicalDeclarationService.findById(idForm));
         model.addAttribute("genderArray", new String[] {"Nam", "Nữ", "Khác"});
@@ -50,4 +49,5 @@ public class MedicalClarationController {
         model.addAttribute("message", "Đã cập nhật tờ khai y tế thành công");
         return "info";
     }
+
 }

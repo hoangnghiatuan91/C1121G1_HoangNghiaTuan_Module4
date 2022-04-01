@@ -280,4 +280,35 @@ public class MedicalDeclaration {
     public void setnCoVContact(Boolean nCoVContact) {
         this.nCoVContact = nCoVContact;
     }
+
+    @Override
+    public String toString() {
+        return "MedicalDeclaration{" +
+                "idForm=" + idForm +
+                ", fullName='" + fullName + '\'' +
+                ", birthday='" + birthday + '\'' +
+                ", gender='" + gender + '\'' +
+                ", nationality='" + nationality + '\'' +
+                ", idCardNumber='" + idCardNumber + '\'' +
+                ", travelInfo='" + travelInfo + '\'' +
+                ", vehicleNumber='" + vehicleNumber + '\'' +
+                ", seatNumber='" + seatNumber + '\'' +
+                ", startDay='" + startDay + '\'' +
+                ", endDay='" + endDay + '\'' +
+                ", cityIn14day='" + cityIn14day + '\'' +
+                ", address='" + address + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", fever=" + fever +
+                ", cough=" + cough +
+                ", dyspnea=" + dyspnea +
+                ", soreThroat=" + soreThroat +
+                ", nausea=" + nausea +
+                ", diarrhea=" + diarrhea +
+                ", skinHemorrhage=" + skinHemorrhage +
+                ", skinRash=" + skinRash +
+                ", market=" + market +
+                ", nCoVContact=" + nCoVContact +
+                '}';
+    }
 }
