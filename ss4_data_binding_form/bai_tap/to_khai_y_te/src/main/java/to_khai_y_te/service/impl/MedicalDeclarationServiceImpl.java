@@ -2,34 +2,33 @@ package to_khai_y_te.service.impl;
 
 import org.springframework.stereotype.Service;
 import to_khai_y_te.model.MedicalDeclaration;
+import to_khai_y_te.repository.MedicalDeclarationRepository;
+import to_khai_y_te.repository.impl.MedicalDeclarationRepositoryImpl;
 import to_khai_y_te.service.MedicalDeclarationService;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class MedicalDeclarationServiceImpl implements MedicalDeclarationService {
-    Map<Integer, MedicalDeclaration> medicalDeclarationMap = new HashMap<>();
+    MedicalDeclarationRepository medicalDeclarationRepository = new MedicalDeclarationRepositoryImpl();
 
     @Override
     public List<MedicalDeclaration> findAll() {
-        return new ArrayList<>(medicalDeclarationMap.values());
+        return medicalDeclarationRepository.findAll();
     }
 
     @Override
     public void save(MedicalDeclaration medicalDeclaration) {
-        medicalDeclarationMap.put(medicalDeclaration.getIdForm(), medicalDeclaration);
+        medicalDeclarationRepository.save(medicalDeclaration);
     }
 
     @Override
     public MedicalDeclaration findById(int id) {
-        return medicalDeclarationMap.get(id);
+        return medicalDeclarationRepository.findById(id);
     }
 
     @Override
     public void update(int id, MedicalDeclaration medicalDeclaration) {
-        medicalDeclarationMap.put(id, medicalDeclaration);
+        medicalDeclarationRepository.update(id,medicalDeclaration);
     }
 }

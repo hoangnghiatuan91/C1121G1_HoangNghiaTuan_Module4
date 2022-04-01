@@ -6,12 +6,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import to_khai_y_te.model.MedicalDeclaration;
-import to_khai_y_te.service.MedicalDeclarationService;
+import to_khai_y_te.repository.MedicalDeclarationRepository;
 
 @Controller
 public class MedicalClarationController {
     @Autowired
-    MedicalDeclarationService medicalDeclarationService;
+    MedicalDeclarationRepository medicalDeclarationService;
 
     @GetMapping ("")
     public ModelAndView showForm () {
