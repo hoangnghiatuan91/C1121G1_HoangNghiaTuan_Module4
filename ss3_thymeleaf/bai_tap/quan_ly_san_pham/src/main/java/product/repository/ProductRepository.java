@@ -32,7 +32,13 @@ public class ProductRepository implements IProductRepository {
 
     @Override
     public Product findById(int id) {
-        return products.get(id);
+       List<Product> productList = new ArrayList<>(products.values());
+       for (Product p:productList){
+           if (p.getId() == id){
+               return products.get(id);
+           }
+       }
+       return null;
     }
 
     @Override
