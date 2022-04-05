@@ -1,8 +1,9 @@
-package com.codegym.configuration;
+package com.codegym.cms.configuration;
 
-
-import com.codegym.Service.impl.SongService;
-import com.codegym.repository.impl.SongRepository;
+import com.codegym.cms.repository.CustomerRepository;
+import com.codegym.cms.repository.ICustomerRepository;
+import com.codegym.cms.service.CustomerService;
+import com.codegym.cms.service.ICustomerService;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
@@ -19,10 +20,9 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.spring4.SpringTemplateEngine;
-import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
-import org.thymeleaf.spring4.view.ThymeleafViewResolver;
+import org.thymeleaf.spring5.SpringTemplateEngine;
+import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
+import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 
 import javax.persistence.EntityManager;
@@ -31,31 +31,24 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
-@ComponentScan("com.codegym.controller")
 @EnableWebMvc
 @EnableTransactionManagement
-public class AppConfiguration  implements ApplicationContextAware, WebMvcConfigurer {
-    private ApplicationContext applicationContext;
+@ComponentScan("com.codegym.cms.controller")
+public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
 
-    @Bean
-    public SongRepository songRepository(){
-        return new SongRepository();
-    }
-    @Bean
-    public SongService songService(){
-        return new SongService();
-    }
+    private ApplicationContext applicationContext;
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
     }
 
+    //Cấu hình Thymleaf
     @Bean
     public SpringResourceTemplateResolver templateResolver() {
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
         templateResolver.setApplicationContext(applicationContext);
-        templateResolver.setPrefix("/WEB-INF/song/");
+        templateResolver.setPrefix("/WEB-INF/views");
         templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode(TemplateMode.HTML);
         templateResolver.setCharacterEncoding("UTF-8");
@@ -63,8 +56,8 @@ public class AppConfiguration  implements ApplicationContextAware, WebMvcConfigu
     }
 
     @Bean
-    public TemplateEngine templateEngine() {
-        TemplateEngine templateEngine = new SpringTemplateEngine();
+    public SpringTemplateEngine templateEngine() {
+        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.setTemplateResolver(templateResolver());
         return templateEngine;
     }
@@ -77,47 +70,56 @@ public class AppConfiguration  implements ApplicationContextAware, WebMvcConfigu
         return viewResolver;
     }
 
-
+    //Cấu hình JPA
+    @Bean
+    @Qualifier(value = "entityManager")
+    public EntityManager entityManager(EntityManagerFactory entityManagerFactory) {
+        return entityManagerFactory.createEntityManager();
+    }
 
     @Bean
-    public DataSource dataSource(){
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+        em.setDataSource(dataSource());
+        em.setPackagesToScan("com.codegym.cms.model");
+
+        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        em.setJpaVendorAdapter(vendorAdapter);
+        em.setJpaProperties(additionalProperties());
+        return em;
+    }
+
+    @Bean
+    public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/song_list?useSSL=false");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/cms?createDatabaseIfNotExist=true&useSSL=false");
         dataSource.setUsername("root");
         dataSource.setPassword("123456");
         return dataSource;
     }
 
-    Properties additionalProperties (){
+    @Bean
+    public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
+        JpaTransactionManager transactionManager = new JpaTransactionManager();
+        transactionManager.setEntityManagerFactory(emf);
+        return transactionManager;
+    }
+
+    public Properties additionalProperties() {
         Properties properties = new Properties();
-        properties.setProperty("hibernate.hbm2ddl.auto","update");
-        properties.setProperty("hibernate.dialect","org.hibernate.dialect.MySQL5Dialect");
+        properties.setProperty("hibernate.hbm2ddl.auto", "update");
+        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
         return properties;
     }
 
     @Bean
-    @Qualifier(value = "entityManager")
-    public EntityManager entityManager(EntityManagerFactory entityManagerFactory){
-        return entityManagerFactory.createEntityManager();
+    public ICustomerRepository customerRepository() {
+        return new CustomerRepository();
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory(){
-        LocalContainerEntityManagerFactoryBean entityManagerFactoryBean =new LocalContainerEntityManagerFactoryBean();
-        entityManagerFactoryBean.setDataSource(dataSource());
-        entityManagerFactoryBean.setPackagesToScan("com.codegym.model");
-        JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        entityManagerFactoryBean.setJpaVendorAdapter(vendorAdapter);
-        entityManagerFactoryBean.setJpaProperties(additionalProperties());
-        return entityManagerFactoryBean;
+    public ICustomerService customerService() {
+        return new CustomerService();
     }
-    @Bean
-    public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory){
-        JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(entityManagerFactory);
-        return transactionManager;
-    }
-
-
 }
