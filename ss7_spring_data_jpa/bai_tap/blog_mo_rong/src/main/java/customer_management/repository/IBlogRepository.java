@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IBlogRepository extends JpaRepository<Blog, Integer> {
-    Page<Blog> findAllByAuthorContaining(String name, Pageable pageable);
+    Page<Blog> findAllByAuthorContainingOrderByCreateTime(String name, Pageable pageable);
 //    Page<Blog> findCustomerByProvince(String name, Pageable pageable);
 }
