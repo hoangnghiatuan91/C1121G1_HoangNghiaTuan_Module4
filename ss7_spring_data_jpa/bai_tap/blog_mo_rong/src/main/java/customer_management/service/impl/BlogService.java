@@ -18,7 +18,7 @@ public class BlogService implements IBlogService {
 
     @Override
     public Page<Blog> findAll(String name, Pageable pageable) {
-        return iBlogRepository.findAllByAuthorContainingOrderByCreateTime(name,pageable);
+        return iBlogRepository.findAllByContentContainingOrderByCreateTime(name,pageable);
     }
 
     @Override
