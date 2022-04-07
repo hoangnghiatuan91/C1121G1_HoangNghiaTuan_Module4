@@ -33,6 +33,7 @@
                             th:selected="(${blog.category}) and (${category.id} == *{category.id})"></option>
                 </select>
             </td>
+            <input type="hidden" th:field="*{createTime}">
         </tr>
         <tr>
             <td></td>
