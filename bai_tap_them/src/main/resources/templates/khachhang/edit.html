@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit khách hàng</title>
+</head>
+<body>
+<h1>Edit khách hàng</h1>
+<p>
+    <a href="/khachhang">Danh sách khách hàng</a>
+</p>
+<th:block th:if="${message}">
+    <p th:text="${message}"></p>
+</th:block>
+<form th:action="@{/edit-category}" th:object="${khachHang}" method="post">
+    <input th:type="hidden" name="id" th:field="*{id}">
+    <table>
+        <tr>
+            <td>Tên khách hàng</td>
+            <td><input type="text" th:field="*{tenKhachHang}"/></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Update"></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

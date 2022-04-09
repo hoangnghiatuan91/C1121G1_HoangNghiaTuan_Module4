@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tạo khách hàng</title>
+</head>
+<body>
+<h1>Tạo mới khách hàng</h1>
+<p>
+    <a href="/khachhang">Danh sách khách hàng</a>
+
+</p>
+<th:block th:if="${message}">
+    <p th:text="${message}"></p>
+</th:block>
+<form th:action="@{/create-khachhang}" th:object="${khachhang}" method="post">
+    <table>
+        <tr>
+            <td>Name:</td>
+            <td><input type="text" th:field="*{tenKhachHang}"/></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Tạo mới"></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

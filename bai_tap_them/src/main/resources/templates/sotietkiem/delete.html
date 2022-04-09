@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Xoá sổ</title>
+</head>
+<body>
+<h1>Xoá sổ</h1>
+<h2>Chắc chưa ?</h2>
+<p>
+    <a href="/so">Danh sách sổ</a>
+</p>
+<form th:action="@{/delete-so}" th:object="${soTietKiem}" method="post">
+    <table>
+        <tr>
+            <td>Mã số sổ tiết kiệm</td>
+            <td><input th:type="text" readonly th:field="*{id}"></td>
+        </tr>
+        <tr>
+            <td>Tên khách hàng:</td>
+            <td >
+                <input type="text" th:field="*{soTietKiem.khachHang.tenKhachHang}" readonly>
+<!--                <select th:field="*{khachHang}">-->
+<!--                    <option th:each="a : ${khachHangs}" th:value="${a.id}" th:text="${a.tenKhachHang}"></option>-->
+<!--                </select>-->
+            </td>
+        </tr>
+        <tr>
+            <td>Thời gian gửi</td>
+            <td><input type="date" readonly th:field="*{thoiGianGui}"/></td>
+<!--            <td> <small style="color: red" th:errors = "*{thoiGianGui}"></small></td>-->
+
+        </tr>
+        <tr>
+            <td>Kỳ hạn:</td>
+            <td><input type="text" readonly th:field="*{kyHan}"/></td>
+<!--            <td><small style="color: red" th:errors = "*{kyHan}"></small></td>-->
+
+        </tr>
+        <tr>
+            <td>Số tiền gửi</td>
+            <td><input type="text" readonly th:field="*{soTienGui}"/></td>
+<!--            <td><small style="color: red" th:errors = "*{soTienGui}"></small></td>-->
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Xoá"></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
