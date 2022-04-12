@@ -1,9 +1,7 @@
 package com.ungdungmuonsach.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Book {
@@ -14,6 +12,8 @@ public class Book {
     private String nameOfBook;
     private String typeOfBook;
     private Integer quantity;
+    @OneToMany(mappedBy = "book")
+    private Set<BookBorrow> bookBorrows;
 
     public Book() {
     }
@@ -48,5 +48,13 @@ public class Book {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public Set<BookBorrow> getBookBorrows() {
+        return bookBorrows;
+    }
+
+    public void setBookBorrows(Set<BookBorrow> bookBorrows) {
+        this.bookBorrows = bookBorrows;
     }
 }
