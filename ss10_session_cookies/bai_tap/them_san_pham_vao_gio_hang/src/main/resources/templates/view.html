@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detail</title>
+    <th:block th:replace="/layout::linkHead"></th:block>
+</head>
+<body>
+<div th:replace="/layout::navBar"></div>
+<center>
+    <h1>Product Details</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-3">
+                <div class="card">
+                    <img width="150px" height="150px" class="card-img-top" th:src="@{${productObj.image}}"
+                         alt="Card image cap">
+                    <div class="card-body d-flex justify-content-center">
+                        <div>
+                            <a class="text-center text-decoration-none" href="#" th:text="${productObj.name}">Product Name</a>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-center">
+                            <del th:text="${' Old Price : ' + (productObj.price+50000)}"></del>
+                        </p>
+                    </div>
+                    <div>
+                        <p class="text-center" th:text="${' Discount Price : ' + productObj.price}"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-9">
+                <div >
+                    <p th:text = "${productObj.description}"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</center>
+</body>
+<th:block th:replace="/layout::script"></th:block>
+</html>

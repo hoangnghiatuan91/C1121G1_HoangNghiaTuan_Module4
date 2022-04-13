@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Shop</title>
+    <th:block th:replace="/layout :: linkHead"></th:block>
+</head>
+<body>
+<div th:replace="/layout::navBar"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-3" width="200px" height="200px" th:each="productObj : ${products}">
+            <div class="card">
+                <img width="150px" height="150px" class="card-img-top" th:src="@{${productObj.image}}"
+                     alt="Card image cap">
+                <div class="card-body d-flex justify-content-center">
+                    <div>
+                        <a class="text-center text-decoration-none"  th:href="@{/view/__${productObj.id}__}" th:text="${productObj.name}"></a>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-center">
+                        <del th:text="${' Old Price : ' + (productObj.price+50000)}"></del>
+                    </p>
+                </div>
+                <div>
+                    <p class="text-center" th:text="${' Discount Price : ' + productObj.price}"></p>
+                </div>
+                <div class="text-center">
+                    <a class="btn btn-danger" th:href="@{/add/__${productObj.id}__(action='list')}" >Add To Cart</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+<th:block th:replace="/layout :: script"></th:block>
+</html>
