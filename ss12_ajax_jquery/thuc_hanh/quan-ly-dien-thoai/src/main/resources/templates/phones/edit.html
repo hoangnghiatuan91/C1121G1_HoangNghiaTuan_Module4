@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit SmartPhone</title>
+</head>
+<body>
+<h1>Edit SmartPhone</h1>
+<form th:object="${smartPhone}" >
+  <input id="idEdit" type="hidden" th:field="*{id}">
+  <table>
+    <tr>
+      <td>Producer</td>
+      <td><input id="producer" type="text" th:field="*{producer}"></td>
+    </tr>
+    <tr>
+      <td>Model</td>
+      <td><input id="model" type="text" th:field="*{model}"></td>
+    </tr>
+    <tr>
+      <td>Price</td>
+      <td><input id="price" type="text" th:field="*{price}"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><button type="button" id="edit" > Edit </button> </td>
+    </tr>
+  </table>
+</form>
+<div id="idContentEdit"></div>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function (){
+    $('#edit').click(function (){
+      let producer =$('#producer').val();
+      let model =$('#model').val();
+      let price =$('#price').val();
+      let product = {
+        producer : producer,
+        model : model,
+        price : price,
+      }
+      console.log(product)
+      $.ajax({
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        type : "PATCH",
+        url: "/smartphones/edit/" + $('#idEdit').val(),
+        data :JSON.stringify(product),
+        success : function (data){
+          let outHtml = "";
+          // outHtml += `<span>
+          //   data.producer + " : ";
+          //   data.model+ " : ";
+          //   data.price+ "
+          //               </span >`
+          outHtml +="<span class='success'> After edit : [";
+          outHtml += data.producer + " : ";
+          outHtml += data.model+ " : ";
+          outHtml += data.price+ " ] </span>";
+          $('#idContentEdit').html(outHtml);
+
+        }
+
+      })
+
+    })
+  })
+</script>
+</body>
+</html>

@@ -1,0 +1,160 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List Blog</title>
+    <!-- Font Awesome -->
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+    <link
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+            rel="stylesheet"
+    />
+    <!-- MDB -->
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.11.0/mdb.min.css"
+            rel="stylesheet"
+    />
+</head>
+<body>
+<div class="container mt-4">
+    <div class="row w-50 mx-auto">
+        <div class="col-lg-10">
+            <input class="form-control" type="text" id="keyword">
+        </div>
+        <div class="col-lg-2">
+            <button class="btn btn-primary" id="btnSearch">Search</button>
+        </div>
+    </div>
+    <div class="row w-50 mx-auto">
+        <div class="col-lg-12">
+            <h2>List Blog</h2>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">Author</th>
+                    <th scope="col">Content</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Create Time</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                </tr>
+                </thead>
+                <tbody id="bodyBlog">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<button class="load">Load More</button>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript">
+    let page = 0
+    $.ajax({
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            // 'Access-Control-Allow-Origin':  'http://localhost:8080/blog/list',
+        },
+        type: "GET",
+        url: "http://localhost:8080/listRest?page=" +page+"&searchName=",
+        success: function (data) {
+
+            console.log(data)
+            let resultContent = data.content;
+            let result = "";
+            for(let i = 0; i<resultContent.length;i++){
+                result += "<tr>";
+                result += "<th scope='col'>" + (i + 1) + "</th>";
+                result += "<td>" + data[i].author + "</td>";
+                result += "<td>" + data[i].contentBlog + "</td>";
+                result += "<td>" + data[i].category.categoryName + "</td>";
+                result += "<td>" + data[i].createTimeBlog + "</td>";
+                result += "</tr>";
+            }
+            $("#tableBlog").append(result);
+        },
+        error: function(resultError) {
+            console.log("Error: ");
+            console.log(resultError);
+        }
+    });
+
+    $('.load').click(function () {
+        page++;
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            type: "GET",
+            url: "http://localhost:8080/blog/list?page=" + page,
+            success: function (data) {
+                if(data === undefined){
+
+                    $('.load').hide();
+                    alert("Sai Rồi bạn ơi")
+                }
+                console.log(data);
+                let resultContent = data.content;
+                let result = "";
+                for (let i = 0; i < resultContent.length; i++) {
+                    result += "<tr>";
+                    result += "<th scope='col'>" + (i + 1) + "</th>";
+                    result += "<td>" + data[i].author + "</td>";
+                    result += "<td>" + data[i].contentBlog + "</td>";
+                    result += "<td>" + data[i].category.categoryName + "</td>";
+                    result += "<td>" + data[i].createTimeBlog + "</td>";
+                    result += "</tr>";
+                }
+                $("#tableBlog").append(result);
+
+            },
+
+            error: function (data) {
+                console.log(data.content)
+            },
+        });
+    })
+
+
+    $("#search").click(function () {
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                // 'Access-Control-Allow-Origin':  'http://localhost:8080/blog/load',
+            },
+            type: "GET",
+            url: "http://localhost:8080/blogRestByCategory",
+            success: function (data) {
+                console.log(data);
+                let result = "";
+                for(let i = 0; i<data.length;i++){
+                    result += "<tr>";
+                    result += "<th scope='col'>" + (i + 1) + "</th>";
+                    result += "<td>" + data[i].author + "</td>";
+                    result += "<td>" + data[i].contentBlog + "</td>";
+                    result += "<td>" + data[i].cateogory.categoryName + "</td>";
+                    result += "<td>" + data[i].createTimeBlog + "</td>";
+                    result += "</tr>";
+                }
+                $("#bodyBlog").html(result);
+            }
+        })
+    });
+</script>
+<!-- MDB -->
+<script
+        type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.11.0/mdb.min.js"
+></script>
+</body>
+</html>
