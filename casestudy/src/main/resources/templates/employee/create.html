@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common-layout :: head">
+</head>
+<body>
+<div th:replace="/common-layout :: navbar"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <ul th:replace="/common-layout :: left-sidebar"></ul>
+        </div>
+        <div class="col-11">
+            <div class="container-fluid">
+                <div class="row m-4 d-flex">
+                    <div class="col-5">
+                        <a th:href="@{/employee}" class="btn btn-success">
+                            Back to list employee
+                        </a>
+                    </div>
+                </div>
+                <div class="row m-4 d-flex">
+                    <div class="col-6">
+                        <form th:action="@{/employee/save}" th:object="${employeeDto}" method="post">
+                            <div class="mb-3">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <label for="employeeName" class="form-label">Name: </label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input type="text" class="form-control" id="employeeName"
+                                               aria-describedby="employeeNameError" th:field="*{employeeName}">
+                                        <div id="employeeNameError" class="form-text text-danger"
+                                             th:if="${#fields.hasErrors('employeeName')}" th:errors="*{employeeName}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <label for="employeeBirthday" class="form-label">Birthday: </label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input type="date" class="form-control" id="employeeBirthday"
+                                               aria-describedby="employeeBirthdayError" th:field="*{employeeBirthday}">
+                                        <div id="employeeBirthdayError" class="form-text text-danger"
+                                             th:if="${#fields.hasErrors('employeeBirthday')}" th:errors="*{employeeBirthday}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <label for="employeeIdCard" class="form-label">Id card: </label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input type="text" class="form-control" id="employeeIdCard"
+                                               aria-describedby="employeeIdCardError" th:field="*{employeeIdCard}">
+                                        <div id="employeeIdCardError" class="form-text text-danger"
+                                             th:if="${#fields.hasErrors('employeeIdCard')}" th:errors="*{employeeIdCard}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <label for="employeeSalary" class="form-label">Salary: </label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input type="text" class="form-control" id="employeeSalary"
+                                               aria-describedby="employeeSalaryError" th:field="*{employeeSalary}">
+                                        <div id="employeeSalaryError" class="form-text text-danger"
+                                             th:if="${#fields.hasErrors('employeeSalary')}" th:errors="*{employeeSalary}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <label for="employeePhone" class="form-label">Phone: </label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input type="text" class="form-control" id="employeePhone"
+                                               aria-describedby="employeePhoneError" th:field="*{employeePhone}">
+                                        <div id="employeePhoneError" class="form-text text-danger"
+                                             th:if="${#fields.hasErrors('employeePhone')}" th:errors="*{employeePhone}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <label for="employeeEmail" class="form-label">Email: </label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input type="text" class="form-control" id="employeeEmail"
+                                               aria-describedby="employeeEmailError" th:field="*{employeeEmail}">
+                                        <div id="employeeEmailError" class="form-text text-danger"
+                                             th:if="${#fields.hasErrors('employeeEmail')}" th:errors="*{employeeEmail}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <label for="employeeAddress" class="form-label">Address: </label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input type="text" class="form-control" id="employeeAddress" th:field="*{employeeAddress}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <label for="position" class="form-label">Position: </label>
+                                    </div>
+                                    <div class="col-9">
+                                        <select th:field="*{position}" id="position" required>
+                                            <option selected value="">Select</option>
+                                            <option th:each="position : ${positions}" th:value="${position.positionId}"
+                                                    th:text="${position.positionName}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <label for="educationDegree" class="form-label">Education degree: </label>
+                                    </div>
+                                    <div class="col-9">
+                                        <select th:field="*{educationDegree}" id="educationDegree" required>
+                                            <option selected value="">Select</option>
+                                            <option th:each="educationDegree : ${educationDegrees}" th:value="${educationDegree.educationDegreeId}"
+                                                    th:text="${educationDegree.educationDegreeName}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <label for="division" class="form-label">Division: </label>
+                                    </div>
+                                    <div class="col-9">
+                                        <select th:field="*{division}" id="division" required>
+                                            <option selected value="">Select</option>
+                                            <option th:each="division : ${divisions}" th:value="${division.divisionId}"
+                                                    th:text="${division.divisionName}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <label for="user" class="form-label">User: </label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input type="text" class="form-control" id="user" th:field="*{user.userName}" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="row">
+                                    <div class="col-3"></div>
+                                    <div class="col-4">
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="/common-layout :: footer"></div>
+</body>
+</html>
