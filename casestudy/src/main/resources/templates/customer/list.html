@@ -26,7 +26,7 @@
                 </div>
                 <form class="d-flex m-4">
                     <input class="form-control me-2" type="search" placeholder="Search by customer name"
-                           aria-label="Search" name="customerName">
+                           aria-label="Search" name="customerName" th:value="${customerName}">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
                 <div class="d-flex m-4">
@@ -39,20 +39,23 @@
                         <thead class="thead-inverse">
                         <tr>
                             <th>No</th>
+                            <th>Code</th>
                             <th>Name</th>
                             <th>Birthday</th>
                             <th>Id card</th>
                             <th>Phone</th>
                             <th>Customer type</th>
-                            <th>Detail</th>
+                            <th>Email</th>
+                            <th>Address</th>
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each="customer,loop : ${customers}">
-                            <div th:if = "${customer.deleteFlag == false}">
+                            <div th:if="${customer.deleteFlag == false}">
                                 <td th:text="${loop.count}"></td>
+                                <td th:text="${customer.customerCode}"></td>
                                 <td th:text="${customer.customerName}"></td>
                                 <td th:text="${customer.customerBirthday}"></td>
                                 <td th:text="${customer.customerIdCard}"></td>
@@ -60,10 +63,8 @@
                                 <td th:if="${customer.customerType}"
                                     th:text="${customer.customerType.customerTypeName}"></td>
                                 <td th:unless="${customer.customerType}"></td>
-                                <td>
-                                    <button type="button" th:onclick="showDetailCustomer('${customer.customerId}')"
-                                            class="btn btn-primary"><i class="fas fa-info-circle"></i></button>
-                                </td>
+                                <td th:text="${customer.customerEmail}"></td>
+                                <td th:text="${customer.customerAddress}"></td>
                                 <td>
                                     <a th:href="@{/customer/edit/{id} (id=${customer.customerId})}"
                                        class="btn btn-warning"><i
@@ -75,8 +76,10 @@
                                                 class="btn btn-danger" data-toggle="modal" data-target="#modalDelete">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
-                                        <input type="checkbox" th:value="${customer.customerId}">
                                     </div>
+                                </td>
+                                <td>
+                                    <input type="checkbox" th:value="${customer.customerId}">
                                 </td>
 
                             </div>
@@ -124,6 +127,31 @@
     </div>
 </div>
 
+<!-- Modal delete multiple-->
+<div class="modal fade" id="modalDeleteMultiple" tabindex="-1" aria-labelledby="deleteMultipleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteMultipleModalLabel">Confirm delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" id="formDeleteMultiple" th:action="@{/customer/deleteMultiple}" >
+                <div class="modal-body">
+                    <input type="text" name="idCustomerMultiple" id="idCustomerMultiple" hidden>
+                    Are you sure delete these customers ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" th:onclick="submitFormDeleteMultiple()">Yes</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <div th:replace="/common-layout :: footer"></div>
 
 <script>
@@ -137,6 +165,22 @@
     }
 
     //delete multiple
+
+    function getIdMultiple() {
+        let array = [];
+        let checkboxes = document.querySelectorAll('input[type=checkbox]:checked');
+
+        for (let i = 0; i < checkboxes.length; i++) {
+            array.push(checkboxes[i].value);
+        }
+        for (let i = 0; i < array.length; i++) {
+            document.getElementById("idCustomerMultiple").value += array[i] + ",";
+        }
+    }
+
+    function submitFormDeleteMultiple() {
+        document.getElementById("formDeleteMultiple").submit();
+    }
 
 </script>
 </body>

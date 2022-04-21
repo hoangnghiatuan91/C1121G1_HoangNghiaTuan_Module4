@@ -59,18 +59,18 @@ public class CustomerController {
             return "customer/create";
         }
         Customer customer = new Customer();
-        BeanUtils.copyProperties(customerDto,customer);
+        BeanUtils.copyProperties(customerDto, customer);
         customerService.save(customer);
         return "redirect:/customer";
     }
 
     @GetMapping("/edit/{id}")
-    public String editCustomer(@PathVariable Long id,Model model){
+    public String editCustomer(@PathVariable Long id, Model model) {
         Customer customer = this.customerService.findById(id).orElse(null);
         CustomerDto customerDto = new CustomerDto();
-        if(customer != null){
-            BeanUtils.copyProperties(customer,customerDto);
-            model.addAttribute("customerDto",customerDto);
+        if (customer != null) {
+            BeanUtils.copyProperties(customer, customerDto);
+            model.addAttribute("customerDto", customerDto);
             model.addAttribute("customerTypes", this.customerTypeService.findAll());
         }
         return "customer/edit";
@@ -78,24 +78,37 @@ public class CustomerController {
 
     @PostMapping("/update")
     public String updateCustomer(@Valid @ModelAttribute CustomerDto customerDto,
-                                 BindingResult bindingResult,Model model){
+                                 BindingResult bindingResult, Model model) {
         if (bindingResult.hasFieldErrors()) {
-            model.addAttribute("customerDto",customerDto);
+            model.addAttribute("customerDto", customerDto);
             model.addAttribute("customerTypes", this.customerTypeService.findAll());
             return "customer/edit";
         }
         Customer customer = new Customer();
-        BeanUtils.copyProperties(customerDto,customer);
+        BeanUtils.copyProperties(customerDto, customer);
         this.customerService.save(customer);
         return "redirect:/customer";
     }
 
     @PostMapping("/delete")
-    public String deleteCustomer(@RequestParam Long idCustomer){
+    public String deleteCustomer(@RequestParam Long idCustomer) {
         Customer customer = this.customerService.findById(idCustomer).orElse(null);
-        if(customer != null){
+        if (customer != null) {
             customer.setDeleteFlag(true);
             this.customerService.save(customer);
+        }
+        return "redirect:/customer";
+    }
+
+    @PostMapping("/deleteMultiple")
+    public String deleteMultiCustomer(@RequestParam String idCustomerMultiple) {
+        String[] arr = idCustomerMultiple.split(",");
+        for (int i = 0; i < arr.length; i++) {
+            Customer customer = this.customerService.findById(Long.valueOf(arr[i])).orElse(null);
+            if(customer!=null){
+                customer.setDeleteFlag(true);
+                this.customerService.save(customer);
+            }
         }
         return "redirect:/customer";
     }
