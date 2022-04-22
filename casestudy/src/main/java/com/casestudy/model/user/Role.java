@@ -1,4 +1,4 @@
-package com.casestudy.model.employee;
+package com.casestudy.model.user;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -10,8 +10,8 @@ public class Role {
 
     private String roleName;
 
-    @ManyToMany(mappedBy = "roles")
-    private Set<User> users;
+    @OneToMany(mappedBy = "role")
+    private Set<UserRole> userRoles;
 
     public Role() {
     }
@@ -39,5 +39,13 @@ public class Role {
 
     public void setRoleName(String roleName) {
         this.roleName = roleName;
+    }
+
+    public Set<UserRole> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(Set<UserRole> userRoles) {
+        this.userRoles = userRoles;
     }
 }

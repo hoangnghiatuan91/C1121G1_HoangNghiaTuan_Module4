@@ -1,4 +1,6 @@
-package com.casestudy.model.employee;
+package com.casestudy.model.user;
+
+import com.casestudy.model.employee.Employee;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -14,12 +16,12 @@ public class User {
 
     private String password;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @OneToOne(mappedBy = "user")
     private Employee employee;
 
-    @ManyToMany()
-        @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
+    @OneToMany(mappedBy = "user")
+    private Set<UserRole> userRoles;
+
 
     public User() {
     }
@@ -67,13 +69,11 @@ public class User {
         this.employee = employee;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public Set<UserRole> getUserRoles() {
+        return userRoles;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setUserRoles(Set<UserRole> userRoles) {
+        this.userRoles = userRoles;
     }
-
-
 }

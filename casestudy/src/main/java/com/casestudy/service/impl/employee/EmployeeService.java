@@ -18,8 +18,8 @@ public class EmployeeService implements IEmployeeService {
     private IEmployeeRepository employeeRepository;
 
     @Override
-    public Page<Employee> findAll(Pageable pageable, String employee_name, String employee_phone, String position_id) {
-        return employeeRepository.findAll(pageable, "%" + employee_name + "%", "%" + employee_phone + "%", "%" + position_id + "%");
+    public Page<Employee> findAll(Pageable pageable, String employee_name) {
+        return employeeRepository.findAllEmployee(pageable, employee_name);
     }
 
     @Override

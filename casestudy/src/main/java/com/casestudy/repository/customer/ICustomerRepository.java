@@ -11,4 +11,5 @@ public interface ICustomerRepository extends JpaRepository<Customer,Long> {
 //@Query(value = "select c from Customer c where c.deleteFlag = false and c.customerName like concat('%',:customer_name,'%') ")
 @Query(value = "select * from customer where customer.delete_flag = 0 and customer.customer_name like concat('%',:customer_name,'%') ",nativeQuery = true)
     Page<Customer> findAllByCustomerNameContaining (Pageable pageable, @Param("customer_name") String customer_name);
+
 }

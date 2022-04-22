@@ -8,8 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface IEmployeeRepository extends JpaRepository<Employee, Long> {
-    @Query(value = "SELECT * FROM employee WHERE employee_name LIKE :employee_name AND employee_phone LIKE :employee_phone " +
-            "AND position_id LIKE :position_id", nativeQuery = true)
-    Page<Employee> findAll (Pageable pageable, @Param("employee_name") String employee_name,
-                            @Param("employee_phone") String employee_phone, @Param("position_id") String position_id);
+    @Query(value = "select * from employee where employee.delete_flag = 0 and employee.employee_name like concat('%',:employee_name,'%')", nativeQuery = true)
+    Page<Employee> findAllEmployee(Pageable pageable, @Param("employee_name") String employee_name);
 }

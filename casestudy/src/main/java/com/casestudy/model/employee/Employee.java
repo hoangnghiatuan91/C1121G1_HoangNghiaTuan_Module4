@@ -1,5 +1,7 @@
 package com.casestudy.model.employee;
 
+import com.casestudy.model.user.User;
+
 import javax.persistence.*;
 
 @Entity
@@ -22,6 +24,8 @@ public class Employee {
 
     private String employeeAddress;
 
+    private boolean deleteFlag;
+
     @ManyToOne(targetEntity = Position.class)
     @JoinColumn(name = "position_id", referencedColumnName = "positionId")
     private Position position;
@@ -34,7 +38,7 @@ public class Employee {
     @JoinColumn(name = "division_id", referencedColumnName = "divisionId")
     private Division division;
 
-    @OneToOne (cascade = CascadeType.REMOVE)
+    @OneToOne ()
     @JoinColumn(name = "user_id", referencedColumnName = "userId")
     private User user;
 
@@ -42,6 +46,7 @@ public class Employee {
 //    private Set<Contract> contracts;
 
     public Employee() {
+        setDeleteFlag(false);
     }
 
     public Employee(String employeeName, String employeeBirthday, String employeeIdCard, Double employeeSalary, String employeePhone, String employeeEmail, String employeeAddress) {
@@ -63,6 +68,14 @@ public class Employee {
         this.employeePhone = employeePhone;
         this.employeeEmail = employeeEmail;
         this.employeeAddress = employeeAddress;
+    }
+
+    public boolean isDeleteFlag() {
+        return deleteFlag;
+    }
+
+    public void setDeleteFlag(boolean deleteFlag) {
+        this.deleteFlag = deleteFlag;
     }
 
     public Long getEmployeeId() {
@@ -160,6 +173,5 @@ public class Employee {
     public void setUser(User user) {
         this.user = user;
     }
-
 
 }

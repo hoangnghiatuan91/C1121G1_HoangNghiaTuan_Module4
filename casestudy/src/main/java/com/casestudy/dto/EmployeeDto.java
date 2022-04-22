@@ -3,10 +3,11 @@ package com.casestudy.dto;
 import com.casestudy.model.employee.Division;
 import com.casestudy.model.employee.EducationDegree;
 import com.casestudy.model.employee.Position;
-import com.casestudy.model.employee.User;
+import com.casestudy.model.user.User;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -21,7 +22,7 @@ public class EmployeeDto implements Validator {
     private String employeeName;
 
     @NotBlank(message = "Can not be blank")
-    @Pattern(regexp = "^(?:(?:31(\\/|-|\\.)(?:0?[13578]|1[02]))\\1|(?:(?:29|30)(\\/|-|\\.)(?:0?[13-9]|1[0-2])\\2))(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$|^(?:29(\\/|-|\\.)0?2\\3(?:(?:(?:1[6-9]|[2-9]\\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\\d|2[0-8])(\\/|-|\\.)(?:(?:0?[1-9])|(?:1[0-2]))\\4(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$",
+    @Pattern(regexp = "^(^$|(?:19\\d{2}|20\\d{2})[-/.](?:0[1-9]|1[012])[-/.](?:0[1-9]|[12][0-9]|3[01])$)",
             message = "Correct format: dd/MM/yyyy")
     private String employeeBirthday;
 
@@ -52,7 +53,8 @@ public class EmployeeDto implements Validator {
 
     private Division division;
 
-    private User user;
+    @Valid
+    private UserDto userDto;
 
     public EmployeeDto() {
     }
@@ -145,12 +147,12 @@ public class EmployeeDto implements Validator {
         this.division = division;
     }
 
-    public User getUser() {
-        return user;
+    public UserDto getUserDto() {
+        return userDto;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserDto(UserDto userDto) {
+        this.userDto = userDto;
     }
 
     @Override

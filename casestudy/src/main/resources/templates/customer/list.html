@@ -81,7 +81,6 @@
                                 <td>
                                     <input type="checkbox" th:value="${customer.customerId}">
                                 </td>
-
                             </div>
                         </tr>
                         </tbody>
@@ -115,7 +114,6 @@
             <form method="post" id="formDelete" th:action="@{/customer/delete}">
                 <div class="modal-body">
                     <input type="hidden" name="idCustomer" id="idCustomer">
-
                     Are you sure delete this customer ?
                 </div>
                 <div class="modal-footer">
@@ -157,7 +155,7 @@
 <script>
     function deleteByModal(id) {
         document.getElementById("idCustomer").value = id;
-        console.log(id);
+
     }
 
     function submitForm() {

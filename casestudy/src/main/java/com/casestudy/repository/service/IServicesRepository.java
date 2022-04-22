@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 
 public interface IServicesRepository extends JpaRepository<Services,Long> {
-    Page<Services> findAllByServiceNameContaining (Pageable pageable, @Param("customer_name") String service_name);
+    Page<Services> findAllByServiceNameContaining (Pageable pageable, String service_name);
 }
