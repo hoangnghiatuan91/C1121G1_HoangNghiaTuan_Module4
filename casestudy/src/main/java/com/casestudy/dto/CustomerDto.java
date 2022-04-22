@@ -14,33 +14,33 @@ public class CustomerDto {
 
 
     @NotBlank(message = "Can not be blank")
-    @Pattern(regexp = "^(KH-)(\\d{4})$", message = "Correct format: KH-XXXX.")
+    @Pattern(regexp = "^(^$|(KH-)(\\d{4}))$", message = "Correct format: KH-XXXX.")
     private String customerCode;
 
     @NotBlank(message = "Can not be blank")
-    @Pattern(regexp = "^[\\p{Lu}\\p{Ll}]+( [\\p{Lu}\\p{Ll}]+)*$",
+    @Pattern(regexp = "^(^$|[\\p{Lu}\\p{Ll}]+( [\\p{Lu}\\p{Ll}]+)*)$",
             message = "Not correct format")
     private String customerName;
 
     @NotBlank(message = "Can not be blank")
-    @Pattern(regexp = "^(?:19\\d{2}|20\\d{2})[-/.](?:0[1-9]|1[012])[-/.](?:0[1-9]|[12][0-9]|3[01])$",
+    @Pattern(regexp = "^(^$|(?:19\\d{2}|20\\d{2})[-/.](?:0[1-9]|1[012])[-/.](?:0[1-9]|[12][0-9]|3[01])$)",
             message = "Correct format: dd/MM/yyyy.")
     private String customerBirthday;
 
     private Integer customerGender;
 
     @NotBlank(message = "Can not be blank")
-    @Pattern(regexp = "^([0-9]{9})|([0-9]{12})$",
+    @Pattern(regexp = "^(^$|([0-9]{9})|([0-9]{12})$)",
             message = "Correct format: XXXXXXXXX or XXXXXXXXXXXX.")
     private String customerIdCard;
 
     @NotBlank(message = "Can not be blank")
-    @Pattern(regexp = "^(0|(\\(84\\)\\+))+([9][0-1][0-9]{7})$",
+    @Pattern(regexp = "^(^$|(0|(\\(84\\)\\+))+([9][0-1][0-9]{7}))$",
             message = "Correct format: 090xxxxxxx or 091xxxxxxx or (84)+90xxxxxxx or (84)+91xxxxxxx")
     private String customerPhone;
 
     @NotBlank(message = "Can not be blank")
-    @Pattern(regexp = "^(?:^|\\s)[\\w!#$%&'*+/=?^`{|}~-](\\.?[\\w!#$%&'*+/=?^`{|}~-]+)*@\\w+[.-]?\\w*\\.[a-zA-Z]{2,3}\\b$",
+    @Pattern(regexp = "^(^$|(?:^|\\s)[\\w!#$%&'*+/=?^`{|}~-](\\.?[\\w!#$%&'*+/=?^`{|}~-]+)*@\\w+[.-]?\\w*\\.[a-zA-Z]{2,3}\\b)$",
             message = "Not correct format")
     private String customerEmail;
 

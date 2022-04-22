@@ -22,7 +22,7 @@ public class CustomerTypeService implements ICustomerTypeService {
 
     @Override
     public Optional<CustomerType> findById(Long id) {
-        return Optional.empty();
+        return customerTypeRepository.findById(id);
     }
 
     @Override

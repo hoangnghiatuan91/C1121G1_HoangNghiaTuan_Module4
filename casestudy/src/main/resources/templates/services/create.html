@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/common-layout :: head">
+    <script src="https://code.jquery.com/jquery-3.6.0.slim.js" integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" crossorigin="anonymous"></script>
+</head>
+<body>
+<div th:replace="/common-layout :: navbar"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <ul th:replace="/common-layout :: left-sidebar"></ul>
+        </div>
+        <div class="col-11">
+            <div class="container-fluid">
+
+                <div class="row m-4 d-flex">
+                    <div class="col-6">
+                        <form th:action="@{/services/save}" th:object="${servicesDto}" method="post">
+                            <div class="mb-3">
+                                <div class="row" id="abc" th:data-id="${servicesDto.serviceType.serviceTypeId}">
+                                    <div class="col-3">
+                                        <label for="serviceCode" class="form-label">Service code: </label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input type="text" class="form-control" id="serviceCode"
+                                               aria-describedby="serviceCodeError" th:field="*{serviceCode}">
+                                        <div id="serviceCodeError" class="form-text text-danger"
+                                             th:if="${#fields.hasErrors('serviceCode')}" th:errors="*{serviceCode}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <label for="serviceName" class="form-label">Name: </label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input type="text" class="form-control" id="serviceName"
+                                               aria-describedby="serviceNameError" th:field="*{serviceName}">
+                                        <div id="serviceNameError" class="form-text text-danger"
+                                             th:if="${#fields.hasErrors('serviceName')}" th:errors="*{serviceName}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <label for="serviceArea" class="form-label">Area: </label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input type="text" class="form-control" id="serviceArea"
+                                               aria-describedby="serviceAreaError" th:field="*{serviceArea}">
+                                        <div id="serviceAreaError" class="form-text text-danger"
+                                             th:if="${#fields.hasErrors('serviceArea')}" th:errors="*{serviceArea}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <label for="serviceCost" class="form-label">Cost: </label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input type="text" class="form-control" id="serviceCost"
+                                               aria-describedby="serviceCostError" th:field="*{serviceCost}">
+                                        <div id="serviceCostError" class="form-text text-danger"
+                                             th:if="${#fields.hasErrors('serviceCost')}" th:errors="*{serviceCost}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <label for="serviceMaxPeople" class="form-label">Max People: </label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input type="text" class="form-control" id="serviceMaxPeople"
+                                               aria-describedby="serviceMaxPeopleError" th:field="*{serviceMaxPeople}">
+                                        <div id="serviceMaxPeopleError" class="form-text text-danger"
+                                             th:if="${#fields.hasErrors('serviceMaxPeople')}" th:errors="*{serviceMaxPeople}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <label for="customerType" class="form-label">Rental Type: </label>
+                                    </div>
+                                    <div class="col-9">
+                                        <select th:field="*{rentType}" id="customerType" required>
+                                            <option selected value="">Select</option>
+                                            <option th:each="rentType : ${rentTypes}" th:value="${rentType.rentTypeId}"
+                                                    th:text="${rentType.rentTypeName}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <label for="serviceType" class="form-label">Service Type: </label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input type="text" class="form-control" id="serviceType"
+                                               aria-describedby="serviceTypeError"
+                                        th:value="${servicesDto.serviceType.serviceTypeName}" readonly>
+                                        <input type="text" th:field="*{serviceType.serviceTypeId}" hidden >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3" id="roomStandard">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <label for="standardRoom" class="form-label">Standard Room: </label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input type="text" class="form-control" id="standardRoom"
+                                               aria-describedby="standardRoomError" th:field="*{standardRoom}">
+                                        <div id="standardRoomError" class="form-text text-danger"
+                                             th:if="${#fields.hasErrors('standardRoom')}" th:errors="*{standardRoom}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3" id="description">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <label for="descriptionOtherConvenience" class="form-label">DOC: </label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input type="text" class="form-control" id="descriptionOtherConvenience"
+                                               aria-describedby="descriptionOtherConvenienceError" th:field="*{descriptionOtherConvenience}">
+                                        <div id="descriptionOtherConvenienceError" class="form-text text-danger"
+                                             th:if="${#fields.hasErrors('descriptionOtherConvenience')}" th:errors="*{descriptionOtherConvenience}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3" id="pool">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <label for="poolArea" class="form-label">Pool Area: </label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input type="text" class="form-control" id="poolArea"
+                                               aria-describedby="poolAreaError" th:field="*{poolArea}">
+                                        <div id="poolAreaError" class="form-text text-danger"
+                                             th:if="${#fields.hasErrors('poolArea')}" th:errors="*{poolArea}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3" id="floors">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <label for="numberOfFloors" class="form-label">Floors: </label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input type="text" class="form-control" id="numberOfFloors"
+                                               aria-describedby="numberOfFloorsError" th:field="*{numberOfFloors}">
+                                        <div id="numberOfFloorsError" class="form-text text-danger"
+                                             th:if="${#fields.hasErrors('numberOfFloors')}" th:errors="*{numberOfFloors}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3" id="freeService">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <label for="complimentaryIncludedService" class="form-label">Complimentary Included Service: </label>
+                                    </div>
+                                    <div class="col-9">
+                                        <input type="text" class="form-control" id="complimentaryIncludedService"
+                                               aria-describedby="complimentaryIncludedServiceError" th:field="*{complimentaryIncludedService}">
+                                        <div id="complimentaryIncludedServiceError" class="form-text text-danger"
+                                             th:if="${#fields.hasErrors('complimentaryIncludedService')}" th:errors="*{complimentaryIncludedService}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="row">
+                                    <div class="col-3"></div>
+                                    <div class="col-4">
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                        <a th:href="@{/services}" class="btn btn-danger">
+                                            Cancel
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="/common-layout :: footer"></div>
+</body>
+<script>
+$(document).ready(function (){
+    let id = $("#abc").attr("data-id");
+    if(id==1){
+        $("#freeService").hide();
+    }
+    if(id==2){
+        $("#pool").hide();
+        $("#freeService").hide();
+    }
+    if(id==3){
+        $("#roomStandard").hide();
+        $("#pool").hide();
+        $("#floors").hide();
+    }
+})
+</script>
+</html>
