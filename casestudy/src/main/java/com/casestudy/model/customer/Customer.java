@@ -1,5 +1,7 @@
 package com.casestudy.model.customer;
 
+import com.casestudy.model.contract.Contract;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -33,8 +35,8 @@ public class Customer {
     @JoinColumn(name = "customer_type_id", referencedColumnName = "customerTypeId")
     private CustomerType customerType;
 
-//    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-//    private Set<Contract> contracts;
+    @OneToMany(mappedBy = "customer")
+    private Set<Contract> contracts;
 
     public Customer() {
         this.deleteFlag = false;
@@ -149,5 +151,13 @@ public class Customer {
 
     public void setDeleteFlag(boolean deleteFlag) {
         this.deleteFlag = deleteFlag;
+    }
+
+    public Set<Contract> getContracts() {
+        return contracts;
+    }
+
+    public void setContracts(Set<Contract> contracts) {
+        this.contracts = contracts;
     }
 }

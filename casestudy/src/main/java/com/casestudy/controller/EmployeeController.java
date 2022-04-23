@@ -2,6 +2,7 @@ package com.casestudy.controller;
 
 import com.casestudy.dto.CustomerDto;
 import com.casestudy.dto.EmployeeDto;
+import com.casestudy.dto.UserDto;
 import com.casestudy.model.customer.Customer;
 import com.casestudy.model.employee.Division;
 import com.casestudy.model.employee.EducationDegree;
@@ -91,6 +92,16 @@ public class EmployeeController {
         this.userService.save(user);
         employeeService.save(employee);
         return "redirect:/employee";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editEmployee(@PathVariable Long id,Model model){
+        Employee employee = this.employeeService.findById(id).orElse(null);
+        EmployeeDto employeeDto = new EmployeeDto();
+        if(employee != null){
+            BeanUtils.copyProperties(employee,employeeDto);
+        }
+        return "employee/edit";
     }
 
     @PostMapping("/delete")

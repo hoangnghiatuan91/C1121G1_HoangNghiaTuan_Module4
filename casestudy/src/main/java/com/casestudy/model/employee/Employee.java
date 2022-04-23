@@ -1,8 +1,10 @@
 package com.casestudy.model.employee;
 
+import com.casestudy.model.contract.Contract;
 import com.casestudy.model.user.User;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Employee {
@@ -42,8 +44,8 @@ public class Employee {
     @JoinColumn(name = "user_id", referencedColumnName = "userId")
     private User user;
 
-//    @OneToMany(mappedBy = "employee", cascade = CascadeType.REMOVE)
-//    private Set<Contract> contracts;
+    @OneToMany(mappedBy = "employee")
+    private Set<Contract> contracts;
 
     public Employee() {
         setDeleteFlag(false);
@@ -174,4 +176,11 @@ public class Employee {
         this.user = user;
     }
 
+    public Set<Contract> getContracts() {
+        return contracts;
+    }
+
+    public void setContracts(Set<Contract> contracts) {
+        this.contracts = contracts;
+    }
 }

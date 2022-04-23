@@ -6,6 +6,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 public class UserDto implements Validator {
 
@@ -17,6 +18,7 @@ public class UserDto implements Validator {
     IUserService iUserService;
 
     private String currentPassword;
+
 
     public Long getUserId() {
         return userId;
@@ -58,6 +60,8 @@ public class UserDto implements Validator {
         this.currentPassword = currentPassword;
     }
 
+
+
     @Override
     public boolean supports(Class<?> clazz) {
         return false;
@@ -67,9 +71,10 @@ public class UserDto implements Validator {
     public void validate(Object target, Errors errors) {
         UserDto userDto = (UserDto) target;
         String currentPassword = userDto.getCurrentPassword();
-        User user = this.iUserService.findById(userDto.getUserId()).orElse(null);
-        if(user!=null){
-            errors.rejectValue("currentPassword", "", "Wrong password");
+            User user = this.iUserService.findById(userDto.getUserId()).orElse(null);
+            if(user!=null){
+                if(user.getPassword().equals(userDto.getPassword()))
+                    errors.rejectValue("currentPassword", "", "Wrong password");
+            }
         }
-    }
 }

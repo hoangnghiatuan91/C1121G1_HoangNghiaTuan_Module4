@@ -1,6 +1,9 @@
 package com.casestudy.model.service;
 
+import com.casestudy.model.contract.Contract;
+
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "service")
@@ -36,6 +39,9 @@ public class Services {
     @ManyToOne(targetEntity = RentType.class)
     @JoinColumn(name = "rent_type_id", referencedColumnName = "rentTypeId")
     private RentType rentType;
+
+    @OneToMany(mappedBy = "services")
+    private Set<Contract> contracts;
 
     public Services() {
     }
@@ -169,5 +175,13 @@ public class Services {
 
     public void setComplimentaryIncludedService(String complimentaryIncludedService) {
         this.complimentaryIncludedService = complimentaryIncludedService;
+    }
+
+    public Set<Contract> getContracts() {
+        return contracts;
+    }
+
+    public void setContracts(Set<Contract> contracts) {
+        this.contracts = contracts;
     }
 }
