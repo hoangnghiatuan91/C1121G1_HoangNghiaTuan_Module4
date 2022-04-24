@@ -17,7 +17,7 @@ public class AttachService {
     private Double attachServiceCost;
 
     @NotNull
-    private Long attachServiceUnit;
+    private String attachServiceUnit;
 
     private String attachServiceStatus;
 
@@ -51,11 +51,11 @@ public class AttachService {
         this.attachServiceCost = attachServiceCost;
     }
 
-    public Long getAttachServiceUnit() {
+    public String getAttachServiceUnit() {
         return attachServiceUnit;
     }
 
-    public void setAttachServiceUnit(Long attachServiceUnit) {
+    public void setAttachServiceUnit(String attachServiceUnit) {
         this.attachServiceUnit = attachServiceUnit;
     }
 
