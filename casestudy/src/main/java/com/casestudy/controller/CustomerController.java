@@ -1,14 +1,15 @@
 package com.casestudy.controller;
 
 import com.casestudy.dto.CustomerDto;
-import com.casestudy.model.contract.ContractDetail;
 import com.casestudy.model.customer.Customer;
 import com.casestudy.model.customer.CustomerType;
 import com.casestudy.service.customer.ICustomerService;
 import com.casestudy.service.customer.ICustomerTypeService;
+import com.casestudy.service.customer.ICustomerUseService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
@@ -18,11 +19,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/customer")
 public class CustomerController {
+
+
     @Autowired
     private ICustomerService customerService;
 
@@ -46,12 +48,10 @@ public class CustomerController {
     }
 
     @GetMapping("/useService")
-    public ModelAndView listCustomer(@RequestParam(value = "customerName", defaultValue = "", required = false) String customerName,
-            @PageableDefault(size = 3) Pageable pageable) {
-        Page<Customer> customers = customerService.findCustomer(pageable,customerName);
-        ModelAndView modelAndView = new ModelAndView("/customer/list2");
-        modelAndView.addObject("customers", customers);
-        modelAndView.addObject("customerName", customerName);
+    public ModelAndView listCustomer(@PageableDefault(size = 3) Pageable pageable) {
+        Page<ICustomerUseService> pages = customerService.findAllCustomerUseServicePage(PageRequest.of(pageable.getPageNumber(),1));
+        ModelAndView modelAndView = new ModelAndView("customer/list2");
+        modelAndView.addObject("customers", pages);
         return modelAndView;
     }
 

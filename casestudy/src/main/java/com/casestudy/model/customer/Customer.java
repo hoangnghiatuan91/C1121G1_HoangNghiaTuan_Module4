@@ -30,7 +30,6 @@ public class Customer {
     private boolean deleteFlag;
 
 
-
     @ManyToOne(targetEntity = CustomerType.class)
     @JoinColumn(name = "customer_type_id", referencedColumnName = "customerTypeId")
     private CustomerType customerType;
@@ -160,4 +159,5 @@ public class Customer {
     public void setContracts(Set<Contract> contracts) {
         this.contracts = contracts;
     }
+
 }

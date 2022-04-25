@@ -3,6 +3,7 @@ package com.casestudy.service.impl.customer;
 import com.casestudy.model.customer.Customer;
 import com.casestudy.repository.customer.ICustomerRepository;
 import com.casestudy.service.customer.ICustomerService;
+import com.casestudy.service.customer.ICustomerUseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -50,5 +51,10 @@ public class CustomerService implements ICustomerService {
     @Override
     public Customer findByCode(String customerCode) {
         return customerRepository.findByCustomerCode(customerCode);
+    }
+
+    @Override
+    public Page<ICustomerUseService> findAllCustomerUseServicePage(Pageable pageable) {
+        return customerRepository.findAllCustomerUseServicePage(ICustomerUseService.class,pageable);
     }
 }

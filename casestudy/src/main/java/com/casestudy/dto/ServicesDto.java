@@ -176,9 +176,9 @@ final String regexNumber = "^\\d+$";
 //        final String regexRoomStandard = "^$|[A-Za-z]+";
         ServicesDto servicesDto = (ServicesDto) target;
         String currentServiceCode = servicesDto.getServiceCode();
-        if(!(servicesDto.getServiceType().getServiceTypeId()==3)){
-            errors.rejectValue("numberOfFloors","","Must be greater than 0");
-        }
+//        if(!(servicesDto.getServiceType().getServiceTypeId()==3)){
+//            errors.rejectValue("numberOfFloors","","Must be greater than 0");
+//        }
         Services services = this.servicesService.findByCode(currentServiceCode);
         if(services!=null){
             if(services.getServiceCode().equals(currentServiceCode)){

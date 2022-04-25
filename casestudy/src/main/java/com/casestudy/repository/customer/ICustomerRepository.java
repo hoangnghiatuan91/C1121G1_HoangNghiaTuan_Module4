@@ -21,4 +21,17 @@ public interface ICustomerRepository extends JpaRepository<Customer, Long> {
 
     Customer findByCustomerCode(String codeName);
 
+    @Query(value = "select customer.customer_id,customer.customer_name,contract.contract_id,service.service_name,attach_service.attach_service_name,contract_detail.contract_detail_id,contract_detail.quantity from customer " +
+            "inner join contract on contract.customer_id = customer.customer_id " +
+            "inner join service on contract.service_id = service.service_id " +
+            "inner join contract_detail on contract.contract_id = contract_detail.contract_id " +
+            "left join attach_service on contract_detail.attach_service_id = attach_service.attach_service_id; ",
+            countQuery = "select count (*) from customer "+
+                    "inner join contract on contract.customer_id = customer.customer_id " +
+                    "inner join service on contract.service_id = service.service_id " +
+                    "inner join contract_detail on contract.contract_id = contract_detail.contract_id " +
+                    "left join attach_service on contract_detail.attach_service_id = attach_service.attach_service_id; ",
+                nativeQuery = true)
+    <T>Page<T> findAllCustomerUseServicePage(Class<T> classType,Pageable pageable);
+
 }

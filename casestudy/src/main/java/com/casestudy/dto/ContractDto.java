@@ -3,6 +3,8 @@ package com.casestudy.dto;
 import com.casestudy.model.customer.Customer;
 import com.casestudy.model.employee.Employee;
 import com.casestudy.model.service.Services;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
@@ -11,8 +13,10 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
-public class ContractDto {
+public class ContractDto implements Validator {
     private Long contractId;
 
     @NotBlank(message = "Can not be blank")
@@ -115,5 +119,21 @@ public class ContractDto {
 
     public void setServices(Services services) {
         this.services = services;
+    }
+
+    @Override
+    public boolean supports(Class<?> clazz) {
+        return false;
+    }
+
+    @Override
+    public void validate(Object target, Errors errors) {
+        ContractDto contractDto = (ContractDto) target;
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate startDay = LocalDate.parse(contractDto.getContractStartDate(),dateTimeFormatter);
+        LocalDate endDay = LocalDate.parse(contractDto.getContractEndDate(),dateTimeFormatter);
+        if(startDay.isAfter(endDay)){
+            errors.rejectValue("contractEndDate","","End date must be after start date");
+        }
     }
 }

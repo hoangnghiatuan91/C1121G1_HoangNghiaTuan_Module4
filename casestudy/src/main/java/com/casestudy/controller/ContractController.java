@@ -72,6 +72,7 @@ public class ContractController {
     @PostMapping("/save")
     public String createContract(@Valid @ModelAttribute ContractDto contractDto,
                                  BindingResult bindingResult, Model model) {
+        contractDto.validate(contractDto,bindingResult);
         if (bindingResult.hasFieldErrors()) {
             return "contract/create";
         }
