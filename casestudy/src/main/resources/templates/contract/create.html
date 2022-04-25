@@ -22,7 +22,7 @@
                                     </div>
                                     <div class="col-9">
                                         <input type="date" class="form-control" id="contractStartDate"
-                                               aria-describedby="contractStartDateError" th:field="*{contractStartDate}">
+                                               aria-describedby="contractStartDateError" th:field="*{contractStartDate}" readonly>
                                         <div id="contractStartDateError" class="form-text text-danger"
                                              th:if="${#fields.hasErrors('contractStartDate')}" th:errors="*{contractStartDate}">
                                         </div>
@@ -36,7 +36,7 @@
                                     </div>
                                     <div class="col-9">
                                         <input type="date" class="form-control" id="contractEndDate"
-                                               aria-describedby="contractEndDateError" th:field="*{contractEndDate}">
+                                               aria-describedby="contractEndDateError" th:field="*{contractEndDate}" readonly>
                                         <div id="contractEndDateError" class="form-text text-danger"
                                              th:if="${#fields.hasErrors('contractEndDate')}" th:errors="*{contractEndDate}">
                                         </div>

@@ -1,6 +1,7 @@
 package com.casestudy.controller;
 
 import com.casestudy.dto.CustomerDto;
+import com.casestudy.model.contract.ContractDetail;
 import com.casestudy.model.customer.Customer;
 import com.casestudy.model.customer.CustomerType;
 import com.casestudy.service.customer.ICustomerService;
@@ -44,6 +45,16 @@ public class CustomerController {
         return modelAndView;
     }
 
+    @GetMapping("/useService")
+    public ModelAndView listCustomer(@RequestParam(value = "customerName", defaultValue = "", required = false) String customerName,
+            @PageableDefault(size = 3) Pageable pageable) {
+        Page<Customer> customers = customerService.findCustomer(pageable,customerName);
+        ModelAndView modelAndView = new ModelAndView("/customer/list2");
+        modelAndView.addObject("customers", customers);
+        modelAndView.addObject("customerName", customerName);
+        return modelAndView;
+    }
+
     @GetMapping("/create")
     public ModelAndView showCreateForm() {
         ModelAndView modelAndView = new ModelAndView("customer/create");
@@ -54,6 +65,8 @@ public class CustomerController {
     @PostMapping("/save")
     public String createCustomer(@Valid @ModelAttribute CustomerDto customerDto,
                                  BindingResult bindingResult, Model model) {
+        customerDto.setCustomerService(customerService);
+        customerDto.validate(customerDto,bindingResult);
         if (bindingResult.hasFieldErrors()) {
             model.addAttribute("customerTypes", this.customerTypeService.findAll());
             return "customer/create";

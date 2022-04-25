@@ -8,4 +8,5 @@ import org.springframework.data.domain.Pageable;
 
 public interface IServicesService extends IGeneralService<Services> {
     Page<Services> findAll (Pageable pageable, String service_name);
+    Services findByCode(String serviceCode);
 }

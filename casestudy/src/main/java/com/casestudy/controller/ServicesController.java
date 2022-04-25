@@ -61,6 +61,7 @@ public class ServicesController {
     @PostMapping("/save")
     public String createService(@Valid @ModelAttribute ServicesDto servicesDto,
                                 BindingResult bindingResult, Model model){
+        servicesDto.setServicesService(servicesService);
         servicesDto.validate(servicesDto,bindingResult);
         if(bindingResult.hasFieldErrors()){
             model.addAttribute("serviceTypes", serviceTypeService.findAll());

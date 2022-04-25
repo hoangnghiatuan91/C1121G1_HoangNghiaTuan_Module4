@@ -35,7 +35,7 @@
                                     </div>
                                     <div class="col-9">
                                         <input type="date" class="form-control" id="employeeBirthday"
-                                               aria-describedby="employeeBirthdayError" th:field="*{employeeBirthday}">
+                                               aria-describedby="employeeBirthdayError" th:field="*{employeeBirthday}" readonly>
                                         <div id="employeeBirthdayError" class="form-text text-danger"
                                              th:if="${#fields.hasErrors('employeeBirthday')}"
                                              th:errors="*{employeeBirthday}">

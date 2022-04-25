@@ -41,4 +41,9 @@ public class ServicesService implements IServicesService {
     public Page<Services> findAll(Pageable pageable, String service_name) {
         return servicesRepository.findAllByServiceNameContaining(pageable,service_name);
     }
+
+    @Override
+    public Services findByCode(String serviceCode) {
+        return servicesRepository.findByServiceCode(serviceCode);
+    }
 }

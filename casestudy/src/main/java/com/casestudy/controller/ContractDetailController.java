@@ -55,6 +55,8 @@ public class ContractDetailController {
         return modelAndView;
     }
 
+
+
     @GetMapping("/create")
     public String createContractDetail(Model model){
         model.addAttribute("contractDetailDto",new ContractDetailDto());

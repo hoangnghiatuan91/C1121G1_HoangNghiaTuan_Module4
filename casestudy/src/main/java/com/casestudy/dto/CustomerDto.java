@@ -2,14 +2,16 @@ package com.casestudy.dto;
 
 import com.casestudy.model.customer.Customer;
 import com.casestudy.model.customer.CustomerType;
+import com.casestudy.service.customer.ICustomerService;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 
-import javax.validation.Validator;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomerDto {
+public class CustomerDto implements Validator {
     private Long customerId;
 
 
@@ -49,6 +51,8 @@ public class CustomerDto {
     private CustomerType customerType;
 
     private boolean deleteFlag;
+
+    private ICustomerService customerService;
 
     public CustomerDto() {
         this.deleteFlag = false;
@@ -142,5 +146,28 @@ public class CustomerDto {
         this.deleteFlag = deleteFlag;
     }
 
+    public ICustomerService getCustomerService() {
+        return customerService;
+    }
 
+    public void setCustomerService(ICustomerService customerService) {
+        this.customerService = customerService;
+    }
+
+    @Override
+    public boolean supports(Class<?> clazz) {
+        return false;
+    }
+
+    @Override
+    public void validate(Object target, Errors errors) {
+        CustomerDto customerDto = (CustomerDto) target;
+        String customerCurrentCode = customerDto.getCustomerCode();
+        Customer customer = this.customerService.findByCode(customerCurrentCode);
+        if(customer!=null){
+            if(customer.getCustomerCode().equals(customerCurrentCode)){
+                errors.rejectValue("customerCode","","Code is already existed");
+            }
+        }
+    }
 }

@@ -8,4 +8,5 @@ import org.springframework.data.repository.query.Param;
 
 public interface IServicesRepository extends JpaRepository<Services,Long> {
     Page<Services> findAllByServiceNameContaining (Pageable pageable, String service_name);
+    Services findByServiceCode(String serviceCode);
 }

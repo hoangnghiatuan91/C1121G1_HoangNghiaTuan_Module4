@@ -2,6 +2,8 @@ package com.casestudy.dto;
 
 import com.casestudy.model.service.RentType;
 import com.casestudy.model.service.ServiceType;
+import com.casestudy.model.service.Services;
+import com.casestudy.service.service.IServicesService;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -44,6 +46,8 @@ public class ServicesDto implements Validator {
     private RentType rentType;
 
     private ServiceType serviceType;
+
+    private IServicesService servicesService;
 
     public ServicesDto() {
     }
@@ -152,6 +156,14 @@ public class ServicesDto implements Validator {
         this.complimentaryIncludedService = complimentaryIncludedService;
     }
 
+    public IServicesService getServicesService() {
+        return servicesService;
+    }
+
+    public void setServicesService(IServicesService servicesService) {
+        this.servicesService = servicesService;
+    }
+
     @Override
     public boolean supports(Class<?> clazz) {
         return false;
@@ -163,9 +175,15 @@ final String regexNumber = "^\\d+$";
 //        final String regexPoolArea = "^([0]*[1-9][0-9]*)|[1-9][0-9]*$";
 //        final String regexRoomStandard = "^$|[A-Za-z]+";
         ServicesDto servicesDto = (ServicesDto) target;
+        String currentServiceCode = servicesDto.getServiceCode();
         if(!(servicesDto.getServiceType().getServiceTypeId()==3)){
             errors.rejectValue("numberOfFloors","","Must be greater than 0");
         }
-
+        Services services = this.servicesService.findByCode(currentServiceCode);
+        if(services!=null){
+            if(services.getServiceCode().equals(currentServiceCode)){
+                errors.rejectValue("serviceCode","","Code is already existed");
+            }
+        }
     }
 }
