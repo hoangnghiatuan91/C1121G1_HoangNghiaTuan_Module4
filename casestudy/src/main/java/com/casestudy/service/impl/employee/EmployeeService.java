@@ -23,6 +23,11 @@ public class EmployeeService implements IEmployeeService {
     }
 
     @Override
+    public List<Employee> findAllEmployee() {
+        return employeeRepository.findAllEmployee();
+    }
+
+    @Override
     public List<Employee> findAll() {
         return employeeRepository.findAll();
     }

@@ -48,8 +48,8 @@ public class CustomerController {
     }
 
     @GetMapping("/useService")
-    public ModelAndView listCustomer(@PageableDefault(size = 3) Pageable pageable) {
-        Page<ICustomerUseService> pages = customerService.findAllCustomerUseServicePage(PageRequest.of(pageable.getPageNumber(),1));
+    public ModelAndView listCustomer( Pageable pageable) {
+        Page<ICustomerUseService> pages = customerService.findAllCustomerUseServicePage(PageRequest.of(pageable.getPageNumber(),3));
         ModelAndView modelAndView = new ModelAndView("customer/list2");
         modelAndView.addObject("customers", pages);
         return modelAndView;

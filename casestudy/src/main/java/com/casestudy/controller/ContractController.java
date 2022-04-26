@@ -39,12 +39,12 @@ public class ContractController {
 
     @ModelAttribute("employees")
     public Iterable<Employee> employees(){
-        return this.employeeService.findAll();
+        return this.employeeService.findAllEmployee();
     }
 
     @ModelAttribute("customerSend")
     public Iterable<Customer> customers(){
-        return this.customerService.findAll();
+        return this.customerService.findAllCustomer();
     }
 
     @ModelAttribute("serviceSend")

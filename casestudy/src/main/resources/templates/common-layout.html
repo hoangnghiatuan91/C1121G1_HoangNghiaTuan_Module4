@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<!--      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">-->
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:fragment="head">
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -33,7 +33,7 @@
         <div class="col-5">
             <div>
                 <h5 class="navbar-text" style="float: right">
-                    Logged by: <span></span>
+<!--                    Logged by: <span ></span>-->
                 </h5>
             </div>
         </div>
@@ -121,17 +121,17 @@
         </div>
     </nav>
 </div>
-<ul class="nav nav-pills flex-column" th:fragment="left-sidebar">
-    <li class="nav-item">
-        <a class="nav-link" href="#">Item 1</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="#">Item 2</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="#">Item 3</a>
-    </li>
-</ul>
+<!--<ul class="nav nav-pills flex-column" th:fragment="left-sidebar">-->
+<!--    <li class="nav-item">-->
+<!--        <a class="nav-link" href="#">Item 1</a>-->
+<!--    </li>-->
+<!--    <li class="nav-item">-->
+<!--        <a class="nav-link" href="#">Item 2</a>-->
+<!--    </li>-->
+<!--    <li class="nav-item">-->
+<!--        <a class="nav-link" href="#">Item 3</a>-->
+<!--    </li>-->
+<!--</ul>-->
 
 <div class="container" th:fragment="footer">
     <footer class="py-3 bg-light">

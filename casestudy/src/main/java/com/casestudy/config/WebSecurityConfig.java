@@ -44,9 +44,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
 
         // Các trang không yêu cầu login
-        http.authorizeRequests().antMatchers("/", "/login", "/logout").permitAll();
+        http.authorizeRequests().antMatchers("/", "/login", "/logout","/website-menu-03/**").permitAll();
 
-        // Trang /userInfo yêu cầu phải login với vai trò ROLE_USER hoặc ROLE_ADMIN.
+//         Trang /userInfo yêu cầu phải login với vai trò ROLE_USER hoặc ROLE_ADMIN.
         // Nếu chưa login, nó sẽ redirect tới trang /login.
         http.authorizeRequests().antMatchers("/customer/**", "/services/**", "/contract/**", "/contract-detail/**").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
 
@@ -63,7 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // Submit URL của trang login
                 .loginProcessingUrl("/j_spring_security_check") // Submit URL
                 .loginPage("/login")//
-                .defaultSuccessUrl("/")//
+                .defaultSuccessUrl("/customer")//
                 .failureUrl("/403")//
                 .usernameParameter("user_name")//
                 .passwordParameter("password")

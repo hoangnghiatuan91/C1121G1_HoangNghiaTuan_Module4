@@ -6,10 +6,10 @@
 <div th:replace="/common-layout :: navbar"></div>
 <div class="container-fluid">
     <div class="row">
-        <div class="col">
-            <ul th:replace="/common-layout :: left-sidebar"></ul>
-        </div>
-        <div class="col-11">
+<!--        <div class="col">-->
+<!--            <ul th:replace="/common-layout :: left-sidebar"></ul>-->
+<!--        </div>-->
+        <div class="col-12">
             <div class="container-fluid">
 
                 <div class="row m-4 d-flex">
@@ -22,7 +22,7 @@
                                     </div>
                                     <div class="col-9">
                                         <input type="date" class="form-control" id="contractStartDate"
-                                               aria-describedby="contractStartDateError" th:field="*{contractStartDate}" readonly>
+                                               aria-describedby="contractStartDateError" th:field="*{contractStartDate}" >
                                         <div id="contractStartDateError" class="form-text text-danger"
                                              th:if="${#fields.hasErrors('contractStartDate')}" th:errors="*{contractStartDate}">
                                         </div>
@@ -36,7 +36,7 @@
                                     </div>
                                     <div class="col-9">
                                         <input type="date" class="form-control" id="contractEndDate"
-                                               aria-describedby="contractEndDateError" th:field="*{contractEndDate}" readonly>
+                                               aria-describedby="contractEndDateError" th:field="*{contractEndDate}" >
                                         <div id="contractEndDateError" class="form-text text-danger"
                                              th:if="${#fields.hasErrors('contractEndDate')}" th:errors="*{contractEndDate}">
                                         </div>
@@ -90,7 +90,7 @@
                                     <div class="col-3">
                                         <label for="customer" class="form-label">Customer: </label>
                                     </div>
-                                    <div class="col-9">
+                                    <div class="col-9" >
                                         <select th:field="*{customer}" id="customer" required>
                                             <option selected value="">Select</option>
                                             <option th:each="customer : ${customerSend}" th:value="${customer.customerId}"

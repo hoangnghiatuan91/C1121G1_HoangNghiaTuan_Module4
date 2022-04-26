@@ -8,4 +8,5 @@ String getServiceName();
 String getAttachServiceName();
 Long getContractDetailId();
 String getQuantity();
+Double getTotal();
 }

@@ -6,10 +6,10 @@
 <div th:replace="/common-layout :: navbar"></div>
 <div class="container-fluid">
     <div class="row">
-        <div class="col">
-            <ul th:replace="/common-layout :: left-sidebar"></ul>
-        </div>
-        <div class="col-11">
+<!--        <div class="col">-->
+<!--            <ul th:replace="/common-layout :: left-sidebar"></ul>-->
+<!--        </div>-->
+        <div class="col-12">
             <div class="container-fluid">
 
                 <div class="row m-4 d-flex">
@@ -50,7 +50,7 @@
                                     </div>
                                     <div class="col-9">
                                         <input type="date" class="form-control" id="customerBirthday"
-                                               aria-describedby="customerBirthdayError" th:field="*{customerBirthday}" readonly>
+                                               aria-describedby="customerBirthdayError" th:field="*{customerBirthday}" >
                                         <div id="customerBirthdayError" class="form-text text-danger"
                                              th:if="${#fields.hasErrors('customerBirthday')}" th:errors="*{customerBirthday}">
                                         </div>

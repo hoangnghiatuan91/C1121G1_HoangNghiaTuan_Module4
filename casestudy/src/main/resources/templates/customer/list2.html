@@ -6,10 +6,10 @@
 <div th:replace="/common-layout :: navbar"></div>
 <div class="container-fluid">
     <div class="row">
-        <div class="col">
-            <ul th:replace="/common-layout :: left-sidebar"></ul>
-        </div>
-        <div class="col-11">
+<!--        <div class="col">-->
+<!--            <ul th:replace="/common-layout :: left-sidebar"></ul>-->
+<!--        </div>-->
+        <div class="col-12">
             <div class="container-fluid">
                 <div class="d-flex m-4">
                     <p class="text-success">
@@ -28,6 +28,7 @@
                             <th>Attach Service name</th>
                             <th>Contract detail Id</th>
                             <th>Quantity</th>
+                            <th>Total</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -40,6 +41,7 @@
                                 <td th:text="${customer.attachServiceName}"></td>
                                 <td th:text="${customer.contractDetailId}"></td>
                                 <td th:text="${customer.quantity}"></td>
+                                <td th:text="${customer.total}"></td>
                             </div>
                         </tr>
                         </tbody>
@@ -52,10 +54,10 @@
         <div class="col-10"></div>
         <div class="col-2">
             <a th:if="${customers.hasPrevious()}" class="btn btn-light"
-               th:href="@{'/customer'(page=${customers.number - 1})}">Previous</a>
+               th:href="@{'/customer/useService'(page=${customers.number - 1})}">Previous</a>
             <span th:text="${customers.number + 1}"></span>/<span th:text="${customers.totalPages}"></span>
             <a th:if="${customers.hasNext()}" class="btn btn-light"
-               th:href="@{'/customer'(page=${customers.number + 1})}">Next</a>
+               th:href="@{'/customer/useService'(page=${customers.number + 1})}">Next</a>
         </div>
     </div>
 </div>

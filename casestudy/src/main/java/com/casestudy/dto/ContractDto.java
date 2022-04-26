@@ -128,12 +128,22 @@ public class ContractDto implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
+        final String REGEX_DATE = "^\\d{4}[\\-\\/\\s]?((((0[13578])|(1[02]))[\\-\\/\\s]?(([0-2][0-9])|(3[01])))|(((0[469])|(11))[\\-\\/\\s]?(([0-2][0-9])|(30)))|(02[\\-\\/\\s]?[0-2][0-9]))$";
         ContractDto contractDto = (ContractDto) target;
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        LocalDate startDay = LocalDate.parse(contractDto.getContractStartDate(),dateTimeFormatter);
-        LocalDate endDay = LocalDate.parse(contractDto.getContractEndDate(),dateTimeFormatter);
-        if(startDay.isAfter(endDay)){
-            errors.rejectValue("contractEndDate","","End date must be after start date");
+        if (!contractDto.getContractEndDate().matches(REGEX_DATE)){
+            errors.rejectValue("contractEndDate","","invalid date");
         }
+        if (!contractDto.getContractStartDate().matches(REGEX_DATE)){
+            errors.rejectValue("contractStartDate","","invalid date");
+        }
+        if(contractDto.getContractStartDate().matches(REGEX_DATE)&&contractDto.getContractEndDate().matches(REGEX_DATE)){
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate startDay = LocalDate.parse(contractDto.getContractStartDate(),dateTimeFormatter);
+            LocalDate endDay = LocalDate.parse(contractDto.getContractEndDate(),dateTimeFormatter);
+            if(startDay.isAfter(endDay)){
+                errors.rejectValue("contractEndDate","","End date must be after start date");
+            }
+        }
+
     }
 }
