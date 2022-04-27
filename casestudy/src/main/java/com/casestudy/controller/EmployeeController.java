@@ -124,6 +124,6 @@ public class EmployeeController {
                 this.employeeService.save(employee);
             }
         }
-        return "redirect:/customer";
+        return "redirect:/employee";
     }
 }
