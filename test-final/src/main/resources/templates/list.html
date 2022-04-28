@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <th:block th:replace="/common-layout :: linkHead"></th:block>
+    <th:block th:replace="/common-layout :: css"></th:block>
+</head>
+
+<body>
+<nav th:replace="/common-layout :: header"></nav>
+<nav th:replace="/common-layout :: nav_bar">
+</nav>
+<div>
+
+    <form th:action="@{/search}">
+        <div class="input-group">
+            <div class="form-outline">
+                <input type="search" id="productName" name="productName" class="form-control" th:value="${productName}" />
+                <label class="form-label" for="productName">Product Name</label>
+            </div>
+            <div class="form-outline">
+                <input type="text" id="price" name="price" class="form-control" th:value="${price}"/>
+                <label class="form-label" for="price">Price</label>
+            </div>
+            <div class="form-outline">
+                <input type="text" id="categoryName" name="categoryName" class="form-control" th:value="${categoryName}"/>
+                <label class="form-label" for="categoryName">Category</label>
+            </div>
+            <div class="form-outline">
+                <input type="date" id="colorName" name="colorName" class="form-control" th:value="${colorName}"/>
+                <label class="form-label" for="colorName">Color</label>
+            </div>
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </form>
+    <div class="navbar-nav ms-auto d-flex flex-row">
+        <a type="button" th:href="@{/create}" class="btn btn-primary me-3">
+            ADD NEW
+        </a>
+    </div>
+    <div class="col-2">
+        <div>
+            <button th:onclick="getIdMultiple()" type="button" class="btn btn-danger"
+                    data-mdb-toggle="modal"
+                    data-mdb-target="#modalDeleteMultiple">
+                Delete Multiple
+            </button>
+        </div>
+    </div>
+</div>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">No</th>
+        <th scope="col">Product name</th>
+        <th scope="col">Price</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Color</th>
+        <th scope="col">Category</th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product,loop : ${products}">
+
+        <td th:text="${loop.count}"></td>
+        <td th:text="${product.productName}" style="color: red"></td>
+        <td th:text="${product.price}"></td>
+        <td th:text="${product.quantity}"></td>
+        <td th:text="${product.color.colorName}"></td>
+        <td th:text="${product.category.categoryName}"></td>
+
+        <td>
+            <a type="button" class="btn btn-link btn-sm btn-rounded edit_btn" th:href="@{/edit/{id}(id=${product.productId})}">
+                Edit
+            </a>
+        </td>
+        <td>
+            <a type="button" class="btn btn-danger btn-sm btn-rounded delete_btn" data-mdb-toggle="modal"
+               data-mdb-target="#deleteModal" th:data-id="${product.productId}" th:data-name="${product.productName}"
+               onclick="sendMedicalRecordInfo($(this))">
+                Delete
+            </a>
+        </td>
+        <td>
+            <input type="checkbox" th:value="${product.productId}">
+        </td>
+    </tr>
+
+    </tbody>
+</table>
+
+<footer th:replace="/common-layout :: footer"></footer>
+</body>
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" th:action="@{/delete}">
+                <input type="hidden" name="idDelete" id="idDelete">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm</h5>
+                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Do you want to delete this <span class="text-danger" id="medicalCode"></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal" >Cancel</button>
+                    <input type="submit" class="btn btn-danger" id="delete_btn" value="Delete"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal delete multiple-->
+<div class="modal fade" id="modalDeleteMultiple" tabindex="-1" aria-labelledby="deleteMultipleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteMultipleModalLabel">Confirm delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" id="formDeleteMultiple" th:action="@{/deleteMultiple}" >
+                <div class="modal-body">
+                    <input type="text" name="idMultiple" id="idMultiple" hidden>
+                    Are you sure delete these medical records ?
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger" th:onclick="submitFormDeleteMultiple()">Yes</button>
+                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">No</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="col-12" style="display: flex; justify-content: flex-end; padding-right: 20px">
+    <a th:href="@{/(page=${products.number - 1}, productName=${productName},price=${price},categoryName=${category},colorName=${color})}" th:if="${products.hasPrevious()}">Previous</a>
+    <span th:text="${products.number + 1}"></span>/<span th:text="${products.totalPages}"></span>
+    <a th:href="@{/(page=${products.number + 1}, productName=${productName},price=${price},categoryName=${category},colorName=${color})}" th:if="${products.hasNext()}">Next</a>
+</div>
+<input type="hidden" id="callSuccessModal" name="callSuccessModal" th:value="${callSuccessModal}">
+
+<!--success modal-->
+<div id="successModal" class="modal fade">
+    <div class="modal-dialog modal-confirm modal-confirm-success">
+        <div class="modal-content">
+            <div class="modal-header modal-header-success justify-content-center">
+                <div class="icon-box">
+                    <i class="material-icons">&#xE876;</i>
+                </div>
+                <button type="button" class="close" data-mdb-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body text-center">
+                <h4>Great!</h4>
+                <p>Your account has been created successfully.</p>
+                <!--                <button class="btn btn-success" data-mdb-dismiss="modal"><span>Start Exploring</span> <i class="material-icons">&#xE5C8;</i></button>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<th:block th:replace="/common-layout :: linkScript"></th:block>
+<script>
+    // Show delete modal
+    function sendMedicalRecordInfo(a) {
+        let medicalRecordId = a.attr('data-id');
+        let medicalRecordCode = a.attr('data-name');
+        $("#idDelete").val(medicalRecordId);
+        $("#medicalCode").text(medicalRecordCode);
+    }
+
+    window.addEventListener('load',
+        function() {
+            console.log($('#callSuccessModal').val());
+            console.log($('#callSuccessModal').val() == "true")
+            if ($('#callSuccessModal').val() == "true") {
+                window.setTimeout(function () {
+                    $('#successModal').modal('show');
+                }, 0);
+                window.setTimeout(function () {
+                    $('#successModal').modal('hide');
+                }, 2000);
+            }
+        }, false);
+
+    //delete multiple
+
+    function getIdMultiple() {
+        let array = [];
+        let checkboxes = document.querySelectorAll('input[type=checkbox]:checked');
+
+        for (let i = 0; i < checkboxes.length; i++) {
+            array.push(checkboxes[i].value);
+        }
+        for (let i = 0; i < array.length; i++) {
+            document.getElementById("idMultiple").value += array[i] + ",";
+        }
+    }
+</script>
+</html>

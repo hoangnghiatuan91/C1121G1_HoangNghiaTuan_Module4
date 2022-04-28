@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <th:block th:replace="/common-layout :: linkHead">
+    </th:block>
+    <th:block th:replace="/common-layout :: css"></th:block>
+</head>
+<body>
+<nav th:replace="/common-layout :: header"></nav>
+<nav th:replace="/common-layout :: nav_bar"></nav>
+<div class=" col-4 mx-auto">
+    <form method="post" th:action="@{/save}" th:object="${productDto}">
+        <div class="modal-header">
+            <h5 class="modal-title">Add new product</h5>
+        </div>
+        <div class="modal-body">
+            <div class="form-group mb-4">
+                <div class="form-outline">
+                    <input type="text" id="productName" class="form-control" th:field="*{productName}"/>
+                    <label class="form-label" for="productName">Product name<span
+                            class="text-danger">(*)</span></label>
+                </div>
+                <small class="text-danger" th:if="${#fields.hasErrors('productName')}"
+                       th:errors="*{productName}"></small>
+            </div>
+
+            <div class="form-group mb-4">
+                <div class="form-outline">
+                    <input type="text" id="price" class="form-control" th:field="*{price}"/>
+                    <label class="form-label" for="price">Price<span class="text-danger">(*)</span></label>
+                </div>
+                <small class="text-danger" th:if="${#fields.hasErrors('price')}"
+                       th:errors="*{price}"></small>
+            </div>
+
+            <div class="form-group mb-4">
+                <div class="form-outline">
+                    <input type="text" id="quantity" class="form-control" th:field="*{quantity}"/>
+                    <label class="form-label" for="quantity">Quantity<span
+                            class="text-danger">(*)</span></label>
+                </div>
+                <small class="text-danger" th:if="${#fields.hasErrors('quantity')}"
+                       th:errors="*{quantity}"></small>
+            </div>
+
+            <div class="form-group mb-4">
+                <div class="col-3">
+                    <label for="category" class="form-label">Category </label>
+                </div>
+                <div class="col-9">
+                    <select th:field="*{category}" id="category" required>
+                        <option selected value="">Select</option>
+                        <option th:each="category : ${categories}" th:value="${category.categoryId}"
+                                th:text="${category.categoryName}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group mb-4">
+                <div class="col-3">
+                    <label for="color" class="form-label">Color </label>
+                </div>
+                <div class="col-9">
+                    <select th:field="*{color}" id="color" required>
+                        <option selected value="">Select</option>
+                        <option th:each="color : ${colors}" th:value="${color.colorId}"
+                                th:text="${color.colorName}"></option>
+                    </select>
+                </div>
+            </div>
+
+
+
+        </div>
+        <div class="modal-footer">
+            <input type="submit" class="btn btn-primary" value="Add new"/>
+        </div>
+    </form>
+</div>
+
+<footer th:replace="/common-layout :: footer"></footer>
+</body>
+<th:block th:replace="/common-layout :: linkScript"></th:block>
+</html>
